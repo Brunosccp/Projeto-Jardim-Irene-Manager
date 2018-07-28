@@ -15,18 +15,27 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        print("vem papai")
-        //loadStarWarsPeopleData()
+    
         //loadData()
-        loadBrasileiro()
+        //loadBrasileiro()
+        
+        let brazilSerieA = APIFootballData()
+        DispatchQueue.global(qos: .userInitiated).async {
+            //criando grupo para sincronizar
+            let group = DispatchGroup()
+            group.enter()
+            brazilSerieA.makeRequest(urlString: "http://api.football-data.org/v2/competitions/2013", group)
+            group.wait()
+            
+            //print(brazilSerieA.json)
+            
+            brazilSerieA.getOdds()
+        }
         
         let teamHome = PoissonPrediction(gamesPlayed: 19, goalsFor: 36, goalsAgainst: 11, totalGamesPlayed: 380, totalGoalsFor: 598, totalGoalsAgainst: 454)
         let teamAway = PoissonPrediction(gamesPlayed: 19, goalsFor: 17, goalsAgainst: 32, totalGamesPlayed: 380, totalGoalsFor: 454, totalGoalsAgainst: 598)
         
-        PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
-        
-        
+        //PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
     }
 
     override func didReceiveMemoryWarning() {
@@ -90,23 +99,6 @@ class ViewController: UIViewController {
         }
         
         
-    }
-    
-    
-    func loadStarWarsPeopleData() {
-        let urlString = "http://swapi.co/api/people/"
-        //making request
-        Alamofire.request(urlString).responseData { (dataResponse) in
-            //getting data
-            if let data = dataResponse.result.value {
-                do{
-                    let json = try JSON(data: data)
-                    print(json["results"].array![0]["name"])
-                }catch{
-                    print("ERROR: converting data to JSON")
-                }
-            }
-        }
     }
     
 }

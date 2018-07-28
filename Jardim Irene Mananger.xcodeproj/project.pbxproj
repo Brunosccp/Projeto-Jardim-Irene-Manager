@@ -15,6 +15,7 @@
 		15540219210A341700C757EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15540218210A341700C757EF /* GoogleService-Info.plist */; };
 		15F4328E210CDB17007E6502 /* PoissonPrediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F4328D210CDB17007E6502 /* PoissonPrediction.swift */; };
 		15F43290210CEA75007E6502 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F4328F210CEA75007E6502 /* Math.swift */; };
+		15F43292210CF881007E6502 /* APIFootballData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F43291210CF881007E6502 /* APIFootballData.swift */; };
 		DFE9EA6FCED03D440F874586 /* Pods_Jardim_Irene_Mananger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F149A7020CE6C8E7E26CB8 /* Pods_Jardim_Irene_Mananger.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		15540218210A341700C757EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		15F4328D210CDB17007E6502 /* PoissonPrediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoissonPrediction.swift; sourceTree = "<group>"; };
 		15F4328F210CEA75007E6502 /* Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		15F43291210CF881007E6502 /* APIFootballData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIFootballData.swift; sourceTree = "<group>"; };
 		3D270D00D633A06A4C57CA73 /* Pods-Jardim Irene Mananger.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jardim Irene Mananger.release.xcconfig"; path = "Pods/Target Support Files/Pods-Jardim Irene Mananger/Pods-Jardim Irene Mananger.release.xcconfig"; sourceTree = "<group>"; };
 		C5F149A7020CE6C8E7E26CB8 /* Pods_Jardim_Irene_Mananger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Jardim_Irene_Mananger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -69,6 +71,7 @@
 			children = (
 				15540206210A326C00C757EF /* AppDelegate.swift */,
 				15540208210A326C00C757EF /* ViewController.swift */,
+				15F43291210CF881007E6502 /* APIFootballData.swift */,
 				15F4328D210CDB17007E6502 /* PoissonPrediction.swift */,
 				15F4328F210CEA75007E6502 /* Math.swift */,
 				1554020A210A326C00C757EF /* Main.storyboard */,
@@ -220,6 +223,7 @@
 			files = (
 				15540209210A326C00C757EF /* ViewController.swift in Sources */,
 				15F4328E210CDB17007E6502 /* PoissonPrediction.swift in Sources */,
+				15F43292210CF881007E6502 /* APIFootballData.swift in Sources */,
 				15540207210A326C00C757EF /* AppDelegate.swift in Sources */,
 				15F43290210CEA75007E6502 /* Math.swift in Sources */,
 			);
