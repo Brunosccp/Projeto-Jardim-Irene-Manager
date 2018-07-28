@@ -21,6 +21,12 @@ class ViewController: UIViewController {
         //loadData()
         loadBrasileiro()
         
+        let teamHome = PoissonPrediction(gamesPlayed: 19, goalsFor: 36, goalsAgainst: 11, totalGamesPlayed: 380, totalGoalsFor: 598, totalGoalsAgainst: 454)
+        let teamAway = PoissonPrediction(gamesPlayed: 19, goalsFor: 17, goalsAgainst: 32, totalGamesPlayed: 380, totalGoalsFor: 454, totalGoalsAgainst: 598)
+        
+        PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
