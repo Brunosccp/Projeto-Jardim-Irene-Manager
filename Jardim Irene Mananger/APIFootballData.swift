@@ -18,6 +18,7 @@ class APIFootballData{
     func makeRequest(urlString: String,_ group: DispatchGroup){
         let headers: HTTPHeaders = ["X-Auth-Token" : "c4b18bd19f5941cea8f25182a7a79b06"]
         
+        //fazendo url da tabela do campeonato
         let urlStandings = urlString + "/standings"
         //fazendo o request de standings
         print("start of request standings")
@@ -34,13 +35,16 @@ class APIFootballData{
                 }
             }
         }
+        
         group.wait()
         group.enter()
         
-        //obtendo
+        //obtendo a próxima rodada
+        let matchday = json!["season"]["currentMatchday"].int!
         
-        let urlMatches = urlString + "/matches"
-        //fazendo o request de matches
+        //fazendo url de todos os jogos do campeonato
+        let urlMatches = urlString + "/matches?matchday=\(matchday)"
+        //fazendo o request de matches da rodada atual
         print("start of request matches")
         Alamofire.request(urlMatches, headers: headers).responseData { (dataResponse) in
             //getting data
@@ -59,12 +63,71 @@ class APIFootballData{
 
     }
     func getOdds(){
-        //print(json)
-        //print(json!["standings"][0]["type"].string!)
-        print(getTable("HOME"))
-        //print(jsonMatches)
+        var idHomeTeam: Int
+        var idAwayTeam: Int
+        let homeTable = getTable("HOME")
+        let awayTable = getTable("AWAY")
         
+        for i in 0..<jsonMatches!["matches"].count{
+            //print(jsonMatches!["matches"][i]["homeTeam"]["name"])
+            //print(jsonMatches!["matches"][i]["awayTeam"]["name"])
+            
+            //pegando o ID dos clubes que vão jogar
+            idHomeTeam = jsonMatches!["matches"][i]["homeTeam"]["id"].int!
+            idAwayTeam = jsonMatches!["matches"][i]["awayTeam"]["id"].int!
+            
+            //consertando cagada da API
+            if(idHomeTeam == 1839){
+                idHomeTeam = 6684
+            }
+            
+            //pegando informação dos clubes
+            
+            //variáveis referentes ao time
+            var gamesPlayedHome: Int
+            var gamesPlayedAway: Int
+            var goalsForHome: Int
+            var goalsForAway: Int
+            var goalsAgainstHome: Int
+            var goalsAgainstAway: Int
+            
+            //variáveis referentes ao todos times do campeonato
+            var totalGamesPlayedHome: Int
+            var totalGamesPlayedAway: Int
+            var totalGoalsForHome: Int
+            var totalGoalsForAway: Int
+            var totalGoalsAgainstHome: Int
+            var totalGoalAgainstAway: Int
+            
+            //procurando os times que vão jogar pelo ID, e quando acha guarda informacoes nas variáveis
+            for j in 0..<homeTable.count{
+                if(homeTable[j]["team"]["id"].int == idHomeTeam){
+                    print("mandante: ", homeTable[j]["team"]["name"].string)
+                    
+                    
+                }
+                if(awayTable[j]["team"]["id"].int == idAwayTeam){
+                    print("visitante: ", awayTable[j]["team"]["name"].string)
+                    
+                    
+                }
+                
+                
+            }
+            
+            let teamHome = PoissonPrediction(gamesPlayed: 19, goalsFor: 36, goalsAgainst: 11, totalGamesPlayed: 380, totalGoalsFor: 598, totalGoalsAgainst: 454)
+            let teamAway = PoissonPrediction(gamesPlayed: 19, goalsFor: 17, goalsAgainst: 32, totalGamesPlayed: 380, totalGoalsFor: 454, totalGoalsAgainst: 598)
+            
+            //PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
+            
+            //print(idHomeTeam)
+            //print(idAwayTeam)
+            
+        }
+        //print(homeTable)
     }
+    
+    
     private func getTable(_ type: String) -> JSON{
         var rightTable: Int = -1
         for i in 0...2{ //sempre haverá somente 3 tipos de tabela, tabela total, de mandantes e visitantes
@@ -74,6 +137,6 @@ class APIFootballData{
             }
         }
         //print("tabela certa: ", rightTable)
-        return json!["standings"][rightTable]["table"][1]
+        return json!["standings"][rightTable]["table"]
     }
 }
