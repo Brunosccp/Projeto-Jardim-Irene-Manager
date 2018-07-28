@@ -68,6 +68,24 @@ class APIFootballData{
         let homeTable = getTable("HOME")
         let awayTable = getTable("AWAY")
         
+        //variáveis referentes ao todos times do campeonato
+        var totalGamesPlayedHome = 0.0
+        var totalGamesPlayedAway = 0.0
+        var totalGoalsForHome = 0.0   //funciona também como totalGoalsAgainstAway
+        var totalGoalsForAway = 0.0   //funciona também como totalGoalsAgainstHome
+        
+        for i in 0..<homeTable.count{
+            totalGamesPlayedHome += homeTable[i]["playedGames"].double!
+            totalGamesPlayedAway += awayTable[i]["playedGames"].double!
+            
+            totalGoalsForHome += homeTable[i]["goalsFor"].double!
+            totalGoalsForAway += awayTable[i]["goalsFor"].double!
+        }
+        print(totalGamesPlayedHome)
+        print(totalGamesPlayedAway)
+        print(totalGoalsForHome)    //funciona também como totalGoalsAgainstAway
+        print(totalGoalsForAway)    //funciona também como totalGoalsAgainstHome
+        
         for i in 0..<jsonMatches!["matches"].count{
             //print(jsonMatches!["matches"][i]["homeTeam"]["name"])
             //print(jsonMatches!["matches"][i]["awayTeam"]["name"])
@@ -84,44 +102,45 @@ class APIFootballData{
             //pegando informação dos clubes
             
             //variáveis referentes ao time
-            var gamesPlayedHome: Int
-            var gamesPlayedAway: Int
-            var goalsForHome: Int
-            var goalsForAway: Int
-            var goalsAgainstHome: Int
-            var goalsAgainstAway: Int
-            
-            //variáveis referentes ao todos times do campeonato
-            var totalGamesPlayedHome: Int
-            var totalGamesPlayedAway: Int
-            var totalGoalsForHome: Int
-            var totalGoalsForAway: Int
-            var totalGoalsAgainstHome: Int
-            var totalGoalAgainstAway: Int
+            var gamesPlayedHome: Double = -1
+            var gamesPlayedAway: Double = -1
+            var goalsForHome: Double = -1
+            var goalsForAway: Double = -1
+            var goalsAgainstHome: Double = -1
+            var goalsAgainstAway: Double = -1
             
             //procurando os times que vão jogar pelo ID, e quando acha guarda informacoes nas variáveis
             for j in 0..<homeTable.count{
                 if(homeTable[j]["team"]["id"].int == idHomeTeam){
-                    print("mandante: ", homeTable[j]["team"]["name"].string)
+                    //print("mandante: ", homeTable[j]["team"]["name"].string)
                     
-                    
+                    gamesPlayedHome = homeTable[j]["playedGames"].double!
+                    goalsForHome = homeTable[j]["goalsFor"].double!
+                    goalsAgainstHome = homeTable[j]["goalsAgainst"].double!
                 }
                 if(awayTable[j]["team"]["id"].int == idAwayTeam){
-                    print("visitante: ", awayTable[j]["team"]["name"].string)
+                    //print("visitante: ", awayTable[j]["team"]["name"].string)
                     
-                    
+                    gamesPlayedAway = awayTable[j]["playedGames"].double!
+                    goalsForAway = awayTable[j]["goalsFor"].double!
+                    goalsAgainstAway = awayTable[j]["goalsAgainst"].double!
                 }
                 
                 
             }
+//            print("""
+//                gamesPlayedHome: \(gamesPlayedHome)
+//                gamesPlayedAway: \(gamesPlayedAway)
+//                goalsForHome: \(goalsForHome)
+//                goalsForAway: \(goalsForAway)
+//                goalsAgainstHome: \(goalsAgainstHome)
+//                goalsAgainstAway: \(goalsAgainstAway)
+//            """)
             
-            let teamHome = PoissonPrediction(gamesPlayed: 19, goalsFor: 36, goalsAgainst: 11, totalGamesPlayed: 380, totalGoalsFor: 598, totalGoalsAgainst: 454)
-            let teamAway = PoissonPrediction(gamesPlayed: 19, goalsFor: 17, goalsAgainst: 32, totalGamesPlayed: 380, totalGoalsFor: 454, totalGoalsAgainst: 598)
+            let teamHome = PoissonPrediction(gamesPlayed: gamesPlayedHome, goalsFor: goalsForHome, goalsAgainst: goalsAgainstHome, totalGamesPlayed: totalGamesPlayedHome, totalGoalsFor: totalGoalsForHome, totalGoalsAgainst: totalGoalsForAway)
+            let teamAway = PoissonPrediction(gamesPlayed: gamesPlayedAway, goalsFor: goalsForAway, goalsAgainst: goalsAgainstAway, totalGamesPlayed: totalGamesPlayedAway, totalGoalsFor: totalGoalsForAway, totalGoalsAgainst: totalGoalsForHome)
             
-            //PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
-            
-            //print(idHomeTeam)
-            //print(idAwayTeam)
+            PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
             
         }
         //print(homeTable)
