@@ -55,7 +55,7 @@ class PoissonPrediction{
         return awayTeamGoalExpenctancy
     }
     
-    static func calculateOdds(teamHome: PoissonPrediction, teamAway: PoissonPrediction){
+    static func calculateOdds(teamHome: PoissonPrediction, teamAway: PoissonPrediction) -> (Double, Double, Double){
         var oddHomeWin = 0.0
         var oddAwayWin = 0.0
         var oddDraw = 0.0
@@ -79,5 +79,7 @@ class PoissonPrediction{
             vitória visitante: \(oddAwayWin)
             empate: \(oddDraw)
             """)
+        
+        return (oddHomeWin, oddAwayWin, oddDraw)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1543D119210F91EB00E53E02 /* FirebaseUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1543D118210F91EB00E53E02 /* FirebaseUpdater.swift */; };
 		15540207210A326C00C757EF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15540206210A326C00C757EF /* AppDelegate.swift */; };
 		15540209210A326C00C757EF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15540208210A326C00C757EF /* ViewController.swift */; };
 		1554020C210A326C00C757EF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1554020A210A326C00C757EF /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		1516E4AE123475E4270B2380 /* Pods-Jardim Irene Mananger.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Jardim Irene Mananger.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Jardim Irene Mananger/Pods-Jardim Irene Mananger.debug.xcconfig"; sourceTree = "<group>"; };
+		1543D118210F91EB00E53E02 /* FirebaseUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpdater.swift; sourceTree = "<group>"; };
 		15540203210A326C00C757EF /* Jardim Irene Mananger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Jardim Irene Mananger.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15540206210A326C00C757EF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15540208210A326C00C757EF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			children = (
 				15540206210A326C00C757EF /* AppDelegate.swift */,
 				15540208210A326C00C757EF /* ViewController.swift */,
+				1543D118210F91EB00E53E02 /* FirebaseUpdater.swift */,
 				15F43291210CF881007E6502 /* APIFootballData.swift */,
 				15F4328D210CDB17007E6502 /* PoissonPrediction.swift */,
 				15F4328F210CEA75007E6502 /* Math.swift */,
@@ -223,6 +226,7 @@
 			files = (
 				15540209210A326C00C757EF /* ViewController.swift in Sources */,
 				15F4328E210CDB17007E6502 /* PoissonPrediction.swift in Sources */,
+				1543D119210F91EB00E53E02 /* FirebaseUpdater.swift in Sources */,
 				15F43292210CF881007E6502 /* APIFootballData.swift in Sources */,
 				15540207210A326C00C757EF /* AppDelegate.swift in Sources */,
 				15F43290210CEA75007E6502 /* Math.swift in Sources */,

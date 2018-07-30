@@ -62,11 +62,14 @@ class APIFootballData{
         
 
     }
-    func getOdds(){
+    func getMatchesOdds() -> [(Int, Double, Double, Double)]{
+        var matchesOdds: [(Int, Double, Double, Double)] = []
+        
         var idHomeTeam: Int
         var idAwayTeam: Int
         let homeTable = getTable("HOME")
         let awayTable = getTable("AWAY")
+        
         
         //variáveis referentes ao todos times do campeonato
         var totalGamesPlayedHome = 0.0
@@ -81,10 +84,10 @@ class APIFootballData{
             totalGoalsForHome += homeTable[i]["goalsFor"].double!
             totalGoalsForAway += awayTable[i]["goalsFor"].double!
         }
-        print(totalGamesPlayedHome)
-        print(totalGamesPlayedAway)
-        print(totalGoalsForHome)    //funciona também como totalGoalsAgainstAway
-        print(totalGoalsForAway)    //funciona também como totalGoalsAgainstHome
+        //print(totalGamesPlayedHome)
+        //print(totalGamesPlayedAway)
+        //print(totalGoalsForHome)    //funciona também como totalGoalsAgainstAway
+        //print(totalGoalsForAway)    //funciona também como totalGoalsAgainstHome
         
         for i in 0..<jsonMatches!["matches"].count{
             //print(jsonMatches!["matches"][i]["homeTeam"]["name"])
@@ -126,7 +129,6 @@ class APIFootballData{
                     goalsAgainstAway = awayTable[j]["goalsAgainst"].double!
                 }
                 
-                
             }
 //            print("""
 //                gamesPlayedHome: \(gamesPlayedHome)
@@ -137,17 +139,22 @@ class APIFootballData{
 //                goalsAgainstAway: \(goalsAgainstAway)
 //            """)
             
+            //obtendo a predição de gol dos dois times
             let teamHome = PoissonPrediction(gamesPlayed: gamesPlayedHome, goalsFor: goalsForHome, goalsAgainst: goalsAgainstHome, totalGamesPlayed: totalGamesPlayedHome, totalGoalsFor: totalGoalsForHome, totalGoalsAgainst: totalGoalsForAway)
             let teamAway = PoissonPrediction(gamesPlayed: gamesPlayedAway, goalsFor: goalsForAway, goalsAgainst: goalsAgainstAway, totalGamesPlayed: totalGamesPlayedAway, totalGoalsFor: totalGoalsForAway, totalGoalsAgainst: totalGoalsForHome)
             
-            PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
+            //obtendo o ID da partida
+            let matchID = jsonMatches!["matches"][i]["id"].int
+            let odds = PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
+            
+            matchesOdds.append((matchID!, odds.0, odds.1, odds.2))
             
         }
-        //print(homeTable)
+        
+        return matchesOdds
     }
     
-    
-    private func getTable(_ type: String) -> JSON{
+    func getTable(_ type: String) -> JSON{
         var rightTable: Int = -1
         for i in 0...2{ //sempre haverá somente 3 tipos de tabela, tabela total, de mandantes e visitantes
             if(json!["standings"][i]["type"].string! == type){
@@ -157,5 +164,8 @@ class APIFootballData{
         }
         //print("tabela certa: ", rightTable)
         return json!["standings"][rightTable]["table"]
+    }
+    func getMatches() -> JSON{
+        return jsonMatches!
     }
 }

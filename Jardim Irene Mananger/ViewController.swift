@@ -17,89 +17,32 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     
         //loadData()
-        //loadBrasileiro()
         
         let brazilSerieA = APIFootballData()
         DispatchQueue.global(qos: .userInitiated).async {
             //criando grupo para sincronizar
             let group = DispatchGroup()
+            
             group.enter()
             brazilSerieA.makeRequest(urlString: "http://api.football-data.org/v2/competitions/2013", group)
             group.wait()
             
-            //print(brazilSerieA.json)
             
-            brazilSerieA.getOdds()
+            
+            let matchesOdds = brazilSerieA.getMatchesOdds()
+            
+            let updater = FirebaseUpdater(league: "BrazilSerieA", table: brazilSerieA.getTable("TOTAL"), matches: brazilSerieA.getMatches())
+            
+            updater.updateTeams()
+            updater.updateMatches(matchesOdds: matchesOdds)
         }
         
-        let teamHome = PoissonPrediction(gamesPlayed: 19, goalsFor: 36, goalsAgainst: 11, totalGamesPlayed: 380, totalGoalsFor: 598, totalGoalsAgainst: 454)
-        let teamAway = PoissonPrediction(gamesPlayed: 19, goalsFor: 17, goalsAgainst: 32, totalGamesPlayed: 380, totalGoalsFor: 454, totalGoalsAgainst: 598)
-        
-        //PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    func loadData(){
-        let urlString = "http://api.football-data.org/v2/competitions"
-        //making request
-        Alamofire.request(urlString).responseData { (dataResponse) in
-            //getting data
-            if let data = dataResponse.result.value {
-                do{
-                    let json = try JSON(data: data)
-                    print(json["competitions"].array![19])
-                }catch{
-                    print("ERROR: converting data to JSON")
-                }
-            }
-        }
-    }
-    func loadBrasileiro(){
-        let urlString = "http://api.football-data.org/v2/competitions/2013"
-        
-        let headers: HTTPHeaders = ["X-Auth-Token" : "c4b18bd19f5941cea8f25182a7a79b06"]
-        
-        var currentMatchDay: Int?
-        
-        
-        //criando uma fila para sincronização
-        DispatchQueue.global(qos: .userInitiated).async {
-            //criando grupo para sincronizar
-            let group = DispatchGroup()
-            group.enter()
-            
-            //fazendo o request
-            print("start of request")
-            Alamofire.request(urlString, headers: headers).responseData { (dataResponse) in
-                //getting data
-                
-                if let data = dataResponse.result.value {
-                    do{
-                        let json = try JSON(data: data)
-                        currentMatchDay = json["currentSeason"]["currentMatchday"].int
-                        
-                        print("ERROR: ",json["message"])
-                        
-                        group.leave()
-                        print("end of request")
-                    }catch{
-                        print("ERROR: converting data to JSON")
-                    }
-                }
-            }
-            //esperando o final do request
-            group.wait()
-            
-            print("Printing values in variables:")
-            print(currentMatchDay!)
-            
-        }
-        
-        
-    }
-    
+
 }
 
