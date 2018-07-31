@@ -61,7 +61,9 @@ class FirebaseUpdater{
             print("CREATED WITH SUCESSFUL")
         }
     }
-    func updateMatches(matchesOdds : [(Int, Double, Double, Double)]){
+    func updateMatches(matchesOdds : [(Int, Double, Double, Double, Double)]){
+        
+        print(matches)
         
         //percorrendo todas as partidas e jogando no firebase
         for i in 0..<matches["matches"].count{
@@ -69,6 +71,8 @@ class FirebaseUpdater{
             let id = matches["matches"][i]["id"].int!
             let homeTeamID = matches["matches"][i]["homeTeam"]["id"].int!
             let awayTeamID = matches["matches"][i]["awayTeam"]["id"].int!
+            let matchday = matches["matches"][i]["matchday"].int!
+            let utcDate = matches["matches"][i]["utcDate"].string!
             
             //print("id: \(id!), home: \(homeTeamID!), away: \(awayTeamID!)")
             
@@ -76,6 +80,7 @@ class FirebaseUpdater{
             var homeWinOdd = 0.0
             var awayWinOdd = 0.0
             var drawOdd = 0.0
+            var morethan2GoalsOdd = 0.0
             
             //percorrendo todas as odds para achar a odd da partida em questão
             for j in 0..<matchesOdds.count{
@@ -83,6 +88,7 @@ class FirebaseUpdater{
                     homeWinOdd = matchesOdds[j].1
                     awayWinOdd = matchesOdds[j].2
                     drawOdd = matchesOdds[j].3
+                    morethan2GoalsOdd = matchesOdds[j].4
                     
                     break
                 }
@@ -96,7 +102,10 @@ class FirebaseUpdater{
                 "awayTeamID" : awayTeamID,
                 "homeWinOdd" : homeWinOdd,
                 "awayWinOdd" : awayWinOdd,
-                "drawOdd" : drawOdd
+                "drawOdd" : drawOdd,
+                "moreThan2GoalsOdd" : morethan2GoalsOdd,
+                "matchday" : matchday,
+                "utcDate" : utcDate
                 ] as [String : Any]
             
             matchReference.setValue(newMatchData)

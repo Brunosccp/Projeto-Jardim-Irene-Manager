@@ -55,10 +55,11 @@ class PoissonPrediction{
         return awayTeamGoalExpenctancy
     }
     
-    static func calculateOdds(teamHome: PoissonPrediction, teamAway: PoissonPrediction) -> (Double, Double, Double){
+    static func calculateOdds(teamHome: PoissonPrediction, teamAway: PoissonPrediction) -> (Double, Double, Double, Double){
         var oddHomeWin = 0.0
         var oddAwayWin = 0.0
         var oddDraw = 0.0
+        var oddMoreThan2Goals = 0.0
         
         for i in 0...10{
             for j in 0...10{
@@ -71,6 +72,10 @@ class PoissonPrediction{
                 else{   //se os dois times fizerem número iguais de gol (empate)
                     oddDraw += Math.poisson(events: Double(i), average: homeTeamGoalExpenctancy(teamHome: teamHome, teamAway: teamAway)) * Math.poisson(events: Double(j), average: awayTeamGoalExpectancy(teamHome: teamHome, teamAway: teamAway))
                 }
+                if(i+j > 2){
+                    oddMoreThan2Goals += Math.poisson(events: Double(i), average: homeTeamGoalExpenctancy(teamHome: teamHome, teamAway: teamAway)) * Math.poisson(events: Double(j), average: awayTeamGoalExpectancy(teamHome: teamHome, teamAway: teamAway))
+                }
+                
             }
         }
         
@@ -78,8 +83,9 @@ class PoissonPrediction{
             vitória da casa: \(oddHomeWin)
             vitória visitante: \(oddAwayWin)
             empate: \(oddDraw)
+            mais do que 2 gols: \(oddMoreThan2Goals)
             """)
         
-        return (oddHomeWin, oddAwayWin, oddDraw)
+        return (oddHomeWin, oddAwayWin, oddDraw, oddMoreThan2Goals)
     }
 }

@@ -40,7 +40,8 @@ class APIFootballData{
         group.enter()
         
         //obtendo a próxima rodada
-        let matchday = json!["season"]["currentMatchday"].int!
+        //let matchday = json!["season"]["currentMatchday"].int!
+        let matchday = 17
         
         //fazendo url de todos os jogos do campeonato
         let urlMatches = urlString + "/matches?matchday=\(matchday)"
@@ -62,8 +63,8 @@ class APIFootballData{
         
 
     }
-    func getMatchesOdds() -> [(Int, Double, Double, Double)]{
-        var matchesOdds: [(Int, Double, Double, Double)] = []
+    func getMatchesOdds() -> [(Int, Double, Double, Double, Double)]{
+        var matchesOdds: [(Int, Double, Double, Double, Double)] = []
         
         var idHomeTeam: Int
         var idAwayTeam: Int
@@ -147,7 +148,7 @@ class APIFootballData{
             let matchID = jsonMatches!["matches"][i]["id"].int
             let odds = PoissonPrediction.calculateOdds(teamHome: teamHome, teamAway: teamAway)
             
-            matchesOdds.append((matchID!, odds.0, odds.1, odds.2))
+            matchesOdds.append((matchID!, odds.0, odds.1, odds.2, odds.3))
             
         }
         
